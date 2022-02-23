@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include<stdlib.h>
+struct node {
+    int data;
+    struct node* left;
+    struct node* right;
+};
+int maxDepth(struct node* node)
+{
+    if (node == NULL)
+        return -1;
+    else {
+        int lDepth = maxDepth(node->left);
+        int rDepth = maxDepth(node->right);
+        if (lDepth > rDepth)
+            return (lDepth + 1);
+        else
+            return (rDepth + 1);
+    }
+}
+struct node* Insert(struct node *root,int data) {
+    if(root == NULL) {
+        root = (struct node*)malloc(sizeof(struct node));
+        root->data = data;
+        root->left = root->right = NULL;
+    }
+    else if(data <= root->data)
+        root->left = Insert(root->left,data);
+    else 
+        root->right = Insert(root->right,data);
+    return root;
+}
+int main()
+{
+    struct node* root = NULL;
+    int i,n;
+    scanf("%d",&n);
+    int a[n];
+    for(i=1;i<=n;i++)
+        scanf("%d",&a[i]);
+    for(i=1;i<=n;i++)
+    root = Insert(root,a[i]);
+    printf("%d",maxDepth(root));
+    return 0;
+}
